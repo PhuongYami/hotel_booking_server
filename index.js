@@ -6,6 +6,7 @@ const authRouter = require('./routers/authRouter');
 const app = express();
 
 app.use(cors());
+app.use(express.json());
 
 // Define routes
 app.get('/', (req, res) =>

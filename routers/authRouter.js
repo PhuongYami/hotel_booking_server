@@ -1,9 +1,10 @@
 const Router = require('express').Router;
 
 const authRouter = Router();
-authRouter.get('/hello', (req, res) =>
+authRouter.post('/register', (req, res) =>
 {
-    res.send('Hello World!');
+    console.log(req.body);
+    res.send('Hello from authRouter');
 });
 
 module.exports = authRouter;

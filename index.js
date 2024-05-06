@@ -1,6 +1,8 @@
 const express = require('express');
 const cors = require('cors');
-const authRouter = require('./routers/authRouter');
+const authRouter = require('./src/routers/authRouter');
+const connectDB = require('./src/configs/connectDb');
+const errorMiddleHandle = require('./src/middlewares/errorMiddleware');
 
 // Import required modules
 const app = express();
@@ -15,6 +17,9 @@ app.get('/', (req, res) =>
 });
 
 app.use('/auth', authRouter);
+
+connectDB();
+app.use(errorMiddleHandle);
 
 // Start the server
 const port = 3000;

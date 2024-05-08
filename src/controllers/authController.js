@@ -58,7 +58,31 @@ const register = asyncHandle(async (req, res) =>
     }
 
 });
+const login = asyncHandle(async (req, res) =>
+{
+    const { email, password } = req.body;
+    const exitingUser = await UserModel.findOne({ email });
+    if (!exitingUser)
+    {
+        return res.status(403).json({ message: 'User does not exist!' });
+    }
+    const isPasswordCorrect = await bcrypt.compare(password, exitingUser.password);
+    if (!isPasswordCorrect)
+    {
+        return res.status(401).json({ message: 'Password is incorrect!' });
+    }
+    res.status(200).json({
+        message: 'Login successfully!',
+        data: {
+            email: exitingUser.email,
+            id: exitingUser.id,
+            accesstoken: getJsonWebToken(email, exitingUser.id)
+        }
+    });
+}
+);
 
 module.exports = {
-    register
+    register,
+    login
 };

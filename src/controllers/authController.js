@@ -79,7 +79,7 @@ const handleSendMail = async (val, email) =>
             to: email, // list of receivers
             subject: "Verification email code", // Subject line
             text: "Your code to verification email!", // plain text body
-            html: `<h1>${ verificationCode }</h1>`// html body
+            html: `<h1>${ val }</h1>`// html body
         });
         return 'Send email successfully!'
 

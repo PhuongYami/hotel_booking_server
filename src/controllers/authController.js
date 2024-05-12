@@ -69,18 +69,11 @@ const register = asyncHandle(async (req, res) =>
     }
 
 });
-const handleSendMail = async (val, email) =>
+const handleSendMail = async (val) =>
 {
-
     try
     {
-        await transporter.sendMail({
-            from: `Support Yami Booking Application <${ process.env.EMAIL }>`, // sender address
-            to: email, // list of receivers
-            subject: "Verification email code", // Subject line
-            text: "Your code to verification email!", // plain text body
-            html: `<h1>${ val }</h1>`// html body
-        });
+        await transporter.sendMail(val);
         return 'Send email successfully!'
 
     } catch (error)
@@ -94,7 +87,14 @@ const verification = asyncHandle(async (req, res) =>
     const verificationCode = Math.round(1000 + Math.random() * 9000);
     try
     {
-        await handleSendMail(verificationCode, email);
+        const data = {
+            from: `Support Yami Booking Application <${ process.env.EMAIL }>`, // sender address
+            to: email, // list of receivers
+            subject: "Verification email code", // Subject line
+            text: "Your code to verification email!", // plain text body
+            html: `<h1>${ verificationCode }</h1>`// html body
+        }
+        await handleSendMail(data);
         res.status(200).json({
             message: 'Send verification code successfully!  ',
             data: {
@@ -131,9 +131,57 @@ const login = asyncHandle(async (req, res) =>
     });
 }
 );
+const forgotPassword = asyncHandle(async (req, res) =>
+{
+    const { email } = req.body;
+    const randomPassword = Math.random().toString(36).slice(-8);
+
+    const data = {
+        from: `Support Yami Booking Application <${ process.env.EMAIL }>`, // sender address
+        to: email, // list of receivers
+        subject: "Resend password code!", // Subject line
+        text: "Your new password below here!", // plain text body
+        html: `<h1>${ randomPassword }</h1>`// html body
+    };
+    const user = await UserModel.findOne({ email });
+    if (user)
+    {
+        const salt = await bcrypt.genSalt(10);
+        const hashedPassword = await bcrypt.hash(`${ randomPassword }`, salt);
+
+        await UserModel.findByIdAndUpdate(user._id, {
+            password: hashedPassword,
+            isChangePassword: true,
+        })
+            .then(() =>
+            {
+                console.log('Done');
+            })
+            .catch((error) => console.log(error));
+
+        await handleSendMail(data)
+            .then(() =>
+            {
+                res.status(200).json({
+                    message: 'Send email new password successfully!!!',
+                    data: [],
+                });
+            })
+            .catch((error) =>
+            {
+                res.status(401);
+                throw new Error('Can not send email');
+            });
+    } else
+    {
+        res.status(401);
+        throw new Error('User not found!!!');
+    }
+});
 
 module.exports = {
     register,
     login,
-    verification
+    verification,
+    forgotPassword
 };

@@ -178,10 +178,79 @@ const forgotPassword = asyncHandle(async (req, res) =>
         throw new Error('User not found!!!');
     }
 });
+const handleLoginWithGoogle = asyncHandle(async (req, res) =>
+{
+    const userInfo = req.body;
+
+    const existingUser = await UserModel.findOne({ email: userInfo.email });
+    let user;
+    if (existingUser)
+    {
+        await UserModel.findByIdAndUpdate(existingUser.id, {
+            updatedAt: Date.now(),
+        });
+        user = { ...existingUser };
+        user.accesstoken = await getJsonWebToken(userInfo.email, userInfo.id);
+
+        if (user)
+        {
+            const data = {
+                accesstoken: user.accesstoken,
+                id: existingUser._id,
+                email: existingUser.email,
+                fcmTokens: existingUser.fcmTokens,
+                photo: existingUser.photoUrl,
+                name: existingUser.name,
+            };
+
+            res.status(200).json({
+                message: 'Login with google successfully!!!',
+                data,
+            });
+        } else
+        {
+            res.sendStatus(401);
+            throw new Error('fafsf');
+        }
+    } else
+    {
+        const randomPassword = Math.random().toString(36).slice(-8);
+        const hashedPassword = await bcrypt.hash(randomPassword, 10);
+        const newUser = new UserModel({
+            email: userInfo.email,
+            fullname: userInfo.name,
+            password: hashedPassword,
+            ...userInfo,
+        });
+        await newUser.save();
+        user = { ...newUser };
+        user.accesstoken = await getJsonWebToken(userInfo.email, newUser.id);
+
+        if (user)
+        {
+            res.status(200).json({
+                message: 'Login with google successfully!!!',
+                data: {
+                    accesstoken: user.accesstoken,
+                    id: user._id,
+                    email: user.email,
+                    fcmTokens: user.fcmTokens,
+                    photo: user.photoUrl,
+                    name: user.name,
+                },
+            });
+        } else
+        {
+            res.sendStatus(401);
+            throw new Error('fafsf');
+        }
+    }
+});
 
 module.exports = {
     register,
     login,
     verification,
-    forgotPassword
+    forgotPassword,
+    handleLoginWithGoogle,
 };

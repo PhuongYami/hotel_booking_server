@@ -1,14 +1,16 @@
 const express = require('express');
 const cors = require('cors');
 const authRouter = require('./src/routers/authRouter');
+const serviceRouter = require('./src/routers/serviceRouter');
 const connectDB = require('./src/configs/connectDb');
 const errorMiddleHandle = require('./src/middlewares/errorMiddleware');
 
-// Import required modules
 const app = express();
 
+// Middleware
 app.use(cors());
-app.use(express.json());
+app.use(express.json()); // Parse JSON bodies
+app.use(express.urlencoded({ extended: true })); // Parse URL-encoded bodies
 
 // Define routes
 app.get('/', (req, res) =>
@@ -17,8 +19,11 @@ app.get('/', (req, res) =>
 });
 
 app.use('/auth', authRouter);
+app.use('/service', serviceRouter);
 
 connectDB();
+
+// Error handling middleware
 app.use(errorMiddleHandle);
 
 // Start the server

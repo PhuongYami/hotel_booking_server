@@ -23,6 +23,7 @@ DerivedData
 **/.xcode.env.local
 .env
 src/configs
+seeds/
 
 # Android/IntelliJ
 #

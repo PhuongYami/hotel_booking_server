@@ -1,4 +1,4 @@
-const HotelModal = require('../models/hotelModel');
+const HotelModel = require('../models/hotelModel');
 const asyncHandle = require('express-async-handler');
 
 
@@ -7,8 +7,14 @@ const createHotel = asyncHandle(async (req, res) =>
     const success = true;
     const { name, description, address, city, country, amenities, owner } = req.body;
     console.log(req.body);
+    // Check if a hotel with the same name already exists
+    const existingHotel = await HotelModel.findOne({ name });
+    if (existingHotel)
+    {
+        return res.status(400).json({ message: 'Hotel name already exists' });
+    }
 
-    const newHotel = new HotelModal({
+    const newHotel = new HotelModel({
         name: name,
         description: description,
         address: address,

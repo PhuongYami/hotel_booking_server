@@ -2,8 +2,10 @@ const express = require('express');
 const cors = require('cors');
 const authRouter = require('./src/routers/authRouter');
 const serviceRouter = require('./src/routers/serviceRouter');
+const userRouter = require('./src/routers/userRouter');
 const connectDB = require('./src/configs/connectDb');
 const errorMiddleHandle = require('./src/middlewares/errorMiddleware');
+
 
 const app = express();
 
@@ -20,6 +22,7 @@ app.get('/', (req, res) =>
 
 app.use('/auth', authRouter);
 app.use('/service', serviceRouter);
+app.use('/user', userRouter);
 
 connectDB();
 

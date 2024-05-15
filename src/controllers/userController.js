@@ -9,6 +9,7 @@ const getUserInfo = asyncHandle(async (req, res) =>
 {
 
     const { uid } = req.query;
+    const { role } = '';
     console.log(req.query);
     if (uid)
     {
@@ -28,6 +29,7 @@ const getUserInfo = asyncHandle(async (req, res) =>
                     email: profile.email ?? '',
                     photo: profile.photo ?? '',
                     phone: profile.phone ?? '',
+                    role: profile.role ?? 'user',
                 },
             });
         } else
@@ -43,6 +45,7 @@ const getUserInfo = asyncHandle(async (req, res) =>
         });
     }
 });
+
 // Update user information
 const updateInfo = asyncHandle(async (req, res) =>
 {
@@ -106,7 +109,38 @@ const updateInfo = asyncHandle(async (req, res) =>
         },
     });
 });
+
+// Update user information
+const updateRole = asyncHandle(async (req, res) =>
+{
+
+    const { uid } = req.query;
+
+    // Find the user by id
+    const user = await UserModel.findById(uid);
+    if (!user)
+    {
+        return res.status(404).json({ message: 'User not found!' });
+    }
+
+
+    // Update user information
+    user.role = 'owner';
+
+    // Save the updated user
+    const updatedUser = await user.save();
+
+    res.status(200).json({
+        message: 'User information updated successfully!',
+        data: {
+            id: updatedUser.id,
+            role: updatedUser.role,
+        },
+    });
+});
+
 module.exports = {
     updateInfo,
-    getUserInfo
+    getUserInfo,
+    updateRole,
 };

@@ -3,6 +3,7 @@ const cors = require('cors');
 const authRouter = require('./src/routers/authRouter');
 const serviceRouter = require('./src/routers/serviceRouter');
 const userRouter = require('./src/routers/userRouter');
+const hotelRouter = require('./src/routers/hotelRouter');
 const connectDB = require('./src/configs/connectDb');
 const errorMiddleHandle = require('./src/middlewares/errorMiddleware');
 
@@ -23,6 +24,8 @@ app.get('/', (req, res) =>
 app.use('/auth', authRouter);
 app.use('/service', serviceRouter);
 app.use('/user', userRouter);
+app.use('/hotel', hotelRouter);
+
 
 connectDB();
 

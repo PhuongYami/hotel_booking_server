@@ -138,9 +138,24 @@ const updateRole = asyncHandle(async (req, res) =>
         },
     });
 });
+const deleteUser = asyncHandle(async (req, res) =>
+{
+    const { uid } = req.query;
+    console.log(req.query);
+    // Find and delete the user by id
+    const deletedUser = await UserModel.findByIdAndDelete(uid);
+
+    if (!deletedUser)
+    {
+        return res.status(404).json({ message: 'User not found!' });
+    }
+
+    res.status(200).json({ message: 'User deleted successfully!' });
+});
 
 module.exports = {
     updateInfo,
     getUserInfo,
     updateRole,
+    deleteUser
 };

@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const reviewSchema = new mongoose.Schema({
     user: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
     hotel: { type: mongoose.Schema.Types.ObjectId, ref: 'Hotel', required: true },
-    rating: { type: Number, required: true, min: 1, max: 5 },
+    rating: { type: Number, required: true, min: 1, max: 10 },
     comment: { type: String, required: true },
     createdAt: { type: Date, default: Date.now },
     updatedAt: { type: Date, default: Date.now }

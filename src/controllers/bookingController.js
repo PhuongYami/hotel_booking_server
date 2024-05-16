@@ -52,35 +52,35 @@ const createBooking = asyncHandle(async (req, res) =>
 const getBookings = asyncHandle(async (req, res) =>
 {
     const userId = req.params.userId; // Assuming the user ID is passed as a path parameter
+    console.log(userId);
+    // try
+    // {
+    //     // Find all bookings for the given userId
+    //     const bookings = await BookingModel.find({ user: userId });
 
-    try
-    {
-        // Find all bookings for the given userId
-        const bookings = await BookingModel.find({ user: userId });
+    //     if (bookings.length === 0)
+    //     {
+    //         return res.status(404).json({ message: 'No bookings found for the given user' });
+    //     }
 
-        if (bookings.length === 0)
-        {
-            return res.status(404).json({ message: 'No bookings found for the given user' });
-        }
+    //     // Map the bookings to a more readable format
+    //     const formattedBookings = bookings.map((booking) => ({
+    //         id: booking._id,
+    //         hotelId: booking.hotel,
+    //         roomId: booking.room,
+    //         userId: booking.user,
+    //         totalPrice: booking.totalPrice,
+    //         checkIn: booking.checkInDate,
+    //         checkOut: booking.checkOutDate,
+    //         paymentMethod: booking.paymentMethod,
+    //     }));
 
-        // Map the bookings to a more readable format
-        const formattedBookings = bookings.map((booking) => ({
-            id: booking._id,
-            hotelId: booking.hotel,
-            roomId: booking.room,
-            userId: booking.user,
-            totalPrice: booking.totalPrice,
-            checkIn: booking.checkInDate,
-            checkOut: booking.checkOutDate,
-            paymentMethod: booking.paymentMethod,
-        }));
-
-        res.status(200).json({ bookings: formattedBookings });
-    } catch (error)
-    {
-        console.error('Error fetching bookings:', error);
-        res.status(500).json({ message: 'Internal server error' });
-    }
+    //     res.status(200).json({ bookings: formattedBookings });
+    // } catch (error)
+    // {
+    //     console.error('Error fetching bookings:', error);
+    //     res.status(500).json({ message: 'Internal server error' });
+    // }
 });
 
 module.exports = {

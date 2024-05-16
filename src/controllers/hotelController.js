@@ -6,7 +6,7 @@ const createHotel = asyncHandle(async (req, res) =>
 {
     const success = true;
     const { name, description, address, city, country, amenities, owner } = req.body;
-    console.log(req.body);
+    //console.log(req.body);
     // Check if a hotel with the same name already exists
     const existingHotel = await HotelModel.findOne({ name });
     if (existingHotel)

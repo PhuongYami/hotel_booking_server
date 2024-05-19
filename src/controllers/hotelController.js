@@ -5,7 +5,7 @@ const asyncHandle = require('express-async-handler');
 const createHotel = asyncHandle(async (req, res) =>
 {
     const success = true;
-    const { name, description, address, city, country, amenities, owner } = req.body;
+    const { name, description, address, city, country, amenities, owner, images } = req.body;
     //console.log(req.body);
     // Check if a hotel with the same name already exists
     const existingHotel = await HotelModel.findOne({ name });
@@ -21,7 +21,8 @@ const createHotel = asyncHandle(async (req, res) =>
         city: city,
         country: country,
         amenities: amenities,
-        owner: owner
+        owner: owner,
+        images: images,
     });
     await newHotel.save();
 
@@ -35,7 +36,8 @@ const createHotel = asyncHandle(async (req, res) =>
             city: newHotel.city,
             country: newHotel.country,
             amenities: newHotel.amenities,
-            owner: newHotel.owner
+            owner: newHotel.owner,
+            images: newHotel.images,
         },
     });
 });

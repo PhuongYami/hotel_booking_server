@@ -43,7 +43,7 @@ const createHotel = asyncHandle(async (req, res) =>
 });
 const getHotels = asyncHandle(async (req, res) =>
 {
-    console.log('req.query', req.query);
+
     const { uid } = req.query;
 
     // Validate that the owner parameter is provided
@@ -54,15 +54,51 @@ const getHotels = asyncHandle(async (req, res) =>
 
     // Find hotels by owner
     const hotels = await HotelModel.find({ owner: uid });
-    console.log('hotels', hotels);
-
-
     res.status(200).json({
         message: 'Hotels retrieved successfully',
         data: hotels,
     });
 });
+const updateHotel = asyncHandle(async (req, res) =>
+{
+    const { name, description, address, city, country, amenities, images } = req.body;
+    const { hotelId } = req.query;
+
+    // Check if the hotel exists
+    const existingHotel = await HotelModel.findById(hotelId);
+    if (!existingHotel)
+    {
+        return res.status(404).json({ message: 'Hotel not found' });
+    }
+
+    // Check if the new name already exists
+    if (name !== existingHotel.name)
+    {
+        const hotelWithSameName = await HotelModel.findOne({ name });
+        if (hotelWithSameName)
+        {
+            return res.status(400).json({ message: 'Hotel name already exists' });
+        }
+    }
+
+    // Update the hotel
+    existingHotel.name = name;
+    existingHotel.description = description;
+    existingHotel.address = address;
+    existingHotel.city = city;
+    existingHotel.country = country;
+    existingHotel.amenities = amenities;
+    existingHotel.images = images;
+
+    const updatedHotel = await existingHotel.save();
+
+    res.status(200).json({
+        message: 'Hotel updated successfully',
+        data: updatedHotel,
+    });
+});
 module.exports = {
     createHotel,
     getHotels,
+    updateHotel
 };

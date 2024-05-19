@@ -41,6 +41,28 @@ const createHotel = asyncHandle(async (req, res) =>
         },
     });
 });
+const getHotels = asyncHandle(async (req, res) =>
+{
+    console.log('req.query', req.query);
+    const { uid } = req.query;
+
+    // Validate that the owner parameter is provided
+    if (!uid)
+    {
+        return res.status(400).json({ message: 'Owner parameter is required' });
+    }
+
+    // Find hotels by owner
+    const hotels = await HotelModel.find({ owner: uid });
+    console.log('hotels', hotels);
+
+
+    res.status(200).json({
+        message: 'Hotels retrieved successfully',
+        data: hotels,
+    });
+});
 module.exports = {
     createHotel,
+    getHotels,
 };

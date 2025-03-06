@@ -1,5 +1,3 @@
-Đây là một file README.md mẫu cho dự án ứng dụng đặt lịch khách sạn Yami Booking:
-
 # Yami Booking - Ứng dụng đặt lịch khách sạn
 
 Yami Booking là một ứng dụng đặt lịch khách sạn hiện đại, được xây dựng với các công nghệ tiên tiến như MongoDB, React Native, Node.js và Express. Ứng dụng cung cấp một nền tảng đặt phòng khách sạn nhanh chóng và tiện lợi cho khách hàng, đồng thời giúp chủ khách sạn quản lý dễ dàng hơn.
@@ -17,19 +15,17 @@ Yami Booking là một ứng dụng đặt lịch khách sạn hiện đại, đ
 ## Hướng dẫn cài đặt
 
 1. Kho lưu trữ GitHub:
-•	Backend: https://github.com/NguyenDuyPhuongDeveloper/hotel_booking_server.git
-•	Frontend: https://github.com/NguyenDuyPhuongDeveloper/Hotel_Booking.git
+-	Backend: https://github.com/NguyenDuyPhuongDeveloper/hotel_booking_server.git
+-	Frontend: https://github.com/NguyenDuyPhuongDeveloper/Hotel_Booking.git
 2. Cài đặt các gói phụ thuộc:
 
 Tạo các file configs:
-·       Backend: tạo folder configs trong source
+-       Backend: tạo folder configs trong source:
 ·        require('dotenv').config();
 ·        const mongoose = require('mongoose');
 ·         
 ·        const dbUrl =
-·        `mongodb+srv://${ process.env.DATABASE_USERNAME }:${ process.env.DATABASE_PASSWORD }
-·        @cluster0.nhqwx5c.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0`;
-·         
+·        `mongodb+srv://${ process.env.DATABASE_USERNAME }:${ process.env.DATABASE_PASSWORD }@cluster0.nhqwx5c.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0`;        
 ·        const connectDB = async () =>
 ·        {
 ·            try
@@ -45,7 +41,7 @@ Tạo các file configs:
 ·        }
 ·         
 ·        module.exports = connectDB;
-·       Frontend: Tạo file google-services.json.
+-       Frontend: Tạo file google-services.json.
 
 
 3. Cấu hình biến môi trường
@@ -55,6 +51,7 @@ Tạo các file configs:
 4. Khởi chạy ứng dụng:
 
 •	Di chuyển vào thư mục backend: gõ lệnh npm install và sau đó npm start.
+
 •	Di chuyển vào thư mục frontend: gõ lệnh npm install và sau đó npm run android.
 
 

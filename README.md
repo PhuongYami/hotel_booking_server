@@ -21,26 +21,26 @@ Yami Booking là một ứng dụng đặt lịch khách sạn hiện đại, đ
 
 Tạo các file configs:
 -       Backend: tạo folder configs trong source:
-·        require('dotenv').config();
-·        const mongoose = require('mongoose');
-·         
-·        const dbUrl =
-·        `mongodb+srv://${ process.env.DATABASE_USERNAME }:${ process.env.DATABASE_PASSWORD }@cluster0.nhqwx5c.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0`;        
-·        const connectDB = async () =>
-·        {
-·            try
-·            {
-·                const connection = await mongoose.connect(dbUrl);
-·         
-·                console.log('Database connected successfully');
-·            } catch (error)
-·            {
-·                console.log('Database connection failed');
-·                process.exit(1);
-·            }
-·        }
-·         
-·        module.exports = connectDB;
+        require('dotenv').config();
+        const mongoose = require('mongoose');
+         
+        const dbUrl =
+        `mongodb+srv://${ process.env.DATABASE_USERNAME }:${ process.env.DATABASE_PASSWORD }@cluster0.nhqwx5c.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0`;        
+        const connectDB = async () =>
+        {
+            try
+            {
+                const connection = await mongoose.connect(dbUrl);
+         
+                console.log('Database connected successfully');
+            } catch (error)
+            {
+                console.log('Database connection failed');
+                process.exit(1);
+            }
+        }
+         
+        module.exports = connectDB;
 -       Frontend: Tạo file google-services.json.
 
 
